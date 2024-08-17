@@ -1,0 +1,16 @@
+USE ECOMMERCE ;
+GO
+
+
+-- PROCEDIMIENTO ALMACENADO PARA INGRESAR DATOS EMPRESA
+
+CREATE OR ALTER PROCEDURE sp_InsertarEmpresa
+(
+	@nit VARCHAR(14),
+	@nombre_comercial VARCHAR(50),
+	@departamento VARCHAR(30),
+	@municipio VARCHAR(25),
+	@zona VARCHAR(25),
+	@calle VARCHAR(25)
+)
+
