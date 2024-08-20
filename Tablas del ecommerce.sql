@@ -1,5 +1,4 @@
-DROP DATABASE IF EXISTS abarroteria;
-GO
+
 
 CREATE DATABASE abarroteria;
 GO
