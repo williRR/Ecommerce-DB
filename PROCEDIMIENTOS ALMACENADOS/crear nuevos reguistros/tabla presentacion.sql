@@ -1,5 +1,8 @@
 use abarroteria
 GO 
+select * from presentacion
+
+exec sp_insertarPresentacion '01','litros','agregando nuevas presentacionses'
 
 CREATE OR ALTER PROCEDURE sp_insertarPresentacion
 	@capacidad VARCHAR(10) ,
@@ -7,41 +10,71 @@ CREATE OR ALTER PROCEDURE sp_insertarPresentacion
 	@descripcion VARCHAR(50)
 
 AS
-	
-
 BEGIN 
 
-	SET NOCOUNT ON
-
+	
+	--inicia la transaccion
 	BEGIN TRANSACTION 
-		
+
 	BEGIN TRY 
+
+	DECLARE @codigo NVARCHAR(5) = '30001'; -- Valor predeterminado en caso de error no controlado
+	DECLARE @Mensaje NVARCHAR(250)  =  'Error desconocido';
+
+
+	-- verificar que los datos sean los correctos 
+
+	IF ISNUMERIC(@capacidad) = 0
+		BEGIN 
+			SET @codigo = '10002'; -- Código para tipo de dato no aceptado
+            SET @mensaje = 'Error: La capacidad debe ser un valor numérico.';
+			ROLLBACK TRANSACTION;
+			RETURN;
+		END 
+	IF LOWER(@unidad_envase) NOT IN ('botella', 'lata', 'bolsa', 'litro', 'mililitro', 'gramo', 'kilogramo', 'quintal', 'onza', 'libra', 'paquete', 'caja', 'unidad', 'docena')
+	BEGIN
+			SET @codigo = '10002'; -- Código para tipo de dato no aceptado
+            SET @mensaje = 'Error: la unidad del envase no es aceptada.';
+			ROLLBACK TRANSACTION;
+			RETURN;
+	END 
+
 		-- verificar si ya existe 
 	 IF EXISTS (
 				SELECT 1
 				FROM presentacion
-				WHERE capacidad = @capacidad AND unidad_envase=@unidad_envase 
+				WHERE capacidad  = @capacidad AND unidad_envase= @unidad_envase
+			
 				)
 		-- en dado caso esto mostrara un mensaje 
 		BEGIN 
-			 PRINT 'YA EN EXISTENCIA';
-			 RETURN -- para salir de procedimiento 
+            SET @codigo = '10001';
+            SET @mensaje = 'Error: El producto con este nombre ya existe.';
+			ROLLBACK TRANSACTION ;
+			RETURN; -- para salir de procedimiento 
 		END;
 
 	 ELSE 
-	 -- si no existe ingresaremos los datos 
+	 -- si no existe,procedemos a  ingresar los datos 
 		BEGIN
 			INSERT INTO presentacion (capacidad , unidad_envase, descripcion)
 			VALUES (@capacidad, @unidad_envase,@descripcion);
-			 PRINT 'Nueva presentación insertada exitosamente.';
 		END ;
-		
-		COMMIT TRANSACTION ; -- confirmar si todo a salido bien 
+		-- Confirmación del éxito de la transacción
+		COMMIT TRANSACTION ;
+		-- codigo y mensaje de exito 
+			SET @codigo = '00000';
+            SET @mensaje = 'Insertado exitosamente';-- confirmar si todo a salido bien 
 	END TRY 
 
 
 	-- manejo de errores 
 	BEGIN CATCH
+	-- Manejo de errores durante la inserción
+        SET @codigo = '20001';
+        SET @mensaje = 'Error al insertar el producto: ' + ERROR_MESSAGE();
+
+
 		IF @@TRANCOUNT > 0
 		ROLLBACK TRANSACTION ;-- revertir en caso de error 
 
@@ -61,6 +94,7 @@ BEGIN
 
 		THROW ;
 		
+		SELECT @codigo AS Codigo, @mensaje AS Mensaje;
 
 	END CATCH 
 
