@@ -46,8 +46,8 @@ CREATE TABLE proveedor (
     calle VARCHAR(25) NULL,
     avenida VARCHAR(25) NULL,
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a'
 );
 GO
@@ -61,8 +61,8 @@ CREATE TABLE inventario (
     fecha_abastecimiento DATE NOT NULL,
     ubicacion VARCHAR(20) NOT NULL,
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a',
 
     CONSTRAINT fk_inventario_proveedor FOREIGN KEY (fk_proveedor) REFERENCES proveedor(codigo_proveedor)
@@ -79,8 +79,8 @@ CREATE TABLE producto (
     fecha_vencimiento DATE NOT NULL,
     marca VARCHAR(20) NULL,
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a',
 
     CONSTRAINT fk_producto_inventario FOREIGN KEY (fk_inventario) REFERENCES inventario(codigo_inventario),
@@ -100,8 +100,8 @@ CREATE TABLE empresa (
     telefono VARCHAR(10) NOT NULL,
     correo_electronico VARCHAR(50) NOT NULL,
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a'
 );
 GO
@@ -117,8 +117,8 @@ CREATE TABLE cliente (
     genero CHAR(1) CHECK(genero IN ('m', 'f')) NOT NULL,
     direccion VARCHAR(50),
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a'
 );
 GO
@@ -141,8 +141,8 @@ CREATE TABLE empleado (
     genero CHAR(1) CHECK(genero IN ('m', 'f')) NOT NULL,
     nacimiento DATE NOT NULL,
     creacion DATETIME DEFAULT GETDATE() NOT NULL,
-    usuario VARCHAR(50) NOT NULL,
-    fecha_modificacion DATETIME NOT NULL,
+    usuario VARCHAR(50) NULL DEFAULT SUSER_SNAME() ,
+    fecha_modificacion DATETIME  NULL DEFAULT GETDATE(),
     estado CHAR(1) CHECK(estado IN ('a', 'n')) DEFAULT 'a'
 );
 GO
