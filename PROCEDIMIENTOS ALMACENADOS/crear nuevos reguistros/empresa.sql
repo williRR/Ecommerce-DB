@@ -1,11 +1,6 @@
 USE abarroteria;
 GO
 
-
-
-
-
-
 -- PROCEDIMIENTO ALMACENADO PARA INGRESAR DATOS EMPRESA
 CREATE OR ALTER PROCEDURE sp_insertarEmpresa
     @nit VARCHAR(14),
@@ -16,12 +11,12 @@ CREATE OR ALTER PROCEDURE sp_insertarEmpresa
     @calle VARCHAR(25),
     @avenida VARCHAR(25),
     @telefono VARCHAR(10),
-    @correo_electronico VARCHAR(50)
+    @correo VARCHAR(50)
 AS
 BEGIN
 
     BEGIN TRANSACTION;
-	    SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
     BEGIN TRY
         -- DECLARAR VARIABLES DE MENSAJE Y CÓDIGO
@@ -30,54 +25,34 @@ BEGIN
 
 
 
-        -- VERIFICANDO LA LONGITUD DE LOS CAMPOS
-
-        IF NOT (
-            CASE WHEN len(@nit) >= LEN(@nit) THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@nombre_comercial) <= 50 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@departamento) <= 30 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@municipio) <= 25 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@zona) <= 25 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@calle) <= 25 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@avenida) <= 25 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@telefono) <= 10 THEN 1 ELSE 0 END = 1 AND
-            CASE WHEN LEN(@correo_electronico) <= 50 THEN 1 ELSE 0 END = 1
-        )
-        BEGIN
-			
-            SET @codigo = '10005'; -- Código de error por longitud incorrecta
-            SET @mensaje = 'Error: Uno o más campos superan la longitud permitida.';
-            ROLLBACK TRANSACTION;
-            THROW 50000, @mensaje, 1;  -- Lanza el error con el mensaje y código
-            RETURN;
-        END;
-
         -- VERIFICANDO QUE EL TELÉFONO SEA NUMÉRICO
         IF ISNUMERIC(@telefono) = 0
         BEGIN
             SET @codigo = '10002'; -- Código para tipo de dato no aceptado
-            SET @mensaje = 'Error: La capacidad debe ser un valor numérico.';
+            SET @mensaje = 'Error: El teléfono debe ser un valor numérico.';
             ROLLBACK TRANSACTION;
             THROW 50000, @mensaje, 1;  -- THROW con código de error
             RETURN;
         END;
-		-- VERIFICACIÓN DE LA EXISTENCIA
+
+        -- VERIFICACIÓN DE LA EXISTENCIA
         IF EXISTS (SELECT 1 FROM empresa WHERE nit = @nit)
         BEGIN
             SET @codigo = '10001';
-            SET @mensaje = 'Error: El producto con este nombre ya existe.';
+            SET @mensaje = 'Error: El NIT de la empresa ya existe.';
             ROLLBACK TRANSACTION;
             THROW 50000, @mensaje, 1;  -- THROW con código de error
             RETURN;
         END;
-		ELSE 
-		BEGIN 
-        -- INSERCIÓN DE DATOS EN LA TABLA EMPRESA
-        INSERT INTO empresa (nit, nombre_comercial, departamento, municipio, zona, calle, avenida, telefono, correo_electronico)
-        VALUES (@nit, @nombre_comercial, @departamento, @municipio, @zona, @calle, @avenida, @telefono, @correo_electronico);
-		END 
+        ELSE 
+        BEGIN 
+            -- INSERCIÓN DE DATOS EN LA TABLA EMPRESA
+            INSERT INTO empresa (nit, nombre_comercial, departamento, municipio, zona, calle, avenida, telefono, correo_electronico)
+            VALUES (@nit, @nombre_comercial, @departamento, @municipio, @zona, @calle, @avenida, @telefono, @correo);
+        END 
+
         COMMIT TRANSACTION ; -- COMMIT de la transacción si todo es exitoso
-		
+
         -- Código y mensaje de éxito
         SET @codigo = '00000';
         SET @mensaje = 'Insertado exitosamente';
@@ -95,14 +70,14 @@ BEGIN
         DECLARE @ErrorProcedure NVARCHAR(128) = ERROR_PROCEDURE();
         DECLARE @ErrorState INT = ERROR_STATE();
         DECLARE @ErrorXact INT = XACT_STATE();
-        DECLARE @identitity_perdido NVARCHAR(40) = IDENT_CURRENT('presentacion'); 
+        DECLARE @identitity_perdido NVARCHAR(40) = IDENT_CURRENT('empresa'); 
 
         SELECT
             @codigo AS Codigo,
             @mensaje AS Mensaje,
-            @ErrorProcedure AS ERROR_POCEDIMIENTO,
+            @ErrorProcedure AS ERROR_PROCEDIMIENTO,
             @ErrorXact AS COMPROMETIDO_TRANSACCION,
-            @identitity_perdido AS IDENITY_PERDIDO,
+            @identitity_perdido AS IDENTITY_PERDIDO,
             @ErrorMsg AS MENSAJE_ERROR,
             @ErrorLine AS LINEA_ERROR,
             @ErrorSeverity AS ERROR_SEGURIDAD,
