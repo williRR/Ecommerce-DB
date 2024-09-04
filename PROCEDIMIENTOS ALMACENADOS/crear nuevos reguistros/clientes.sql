@@ -101,12 +101,4 @@ CREATE OR ALTER PROCEDURE sp_insertarCliente
             @ErrorNumber AS ERROR_NUMERO;
 			
 		END CATCH
-
-		
-
-		
-
-		
-
-
 	END ;
