@@ -1,8 +1,10 @@
 use abarroteria
 go 
 
+
 CREATE OR ALTER PROCEDURE sp_insertarProducto
     @codigo_producto VARCHAR(14),
+	@nombre VARCHAR(20),
     @fk_inventario VARCHAR(14),
     @fk_presentacion INT,
     @precio_unitario DECIMAL(10, 2),
@@ -51,12 +53,12 @@ BEGIN
 
         -- Insertar el nuevo producto
         INSERT INTO producto (
-            codigo_producto, fk_inventario, fk_presentacion, 
+            codigo_producto,nombre ,fk_inventario, fk_presentacion, 
             precio_unitario, fecha_entrada, fecha_vencimiento, 
             marca
         )
         VALUES (
-            @codigo_producto, @fk_inventario, @fk_presentacion, 
+            @codigo_producto,@nombre, @fk_inventario, @fk_presentacion, 
             @precio_unitario, @fecha_entrada, @fecha_vencimiento, 
             @marca
         );

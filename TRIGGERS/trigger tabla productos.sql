@@ -22,6 +22,10 @@ BEGIN
         INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
         VALUES (@DateTime, @TableName, 'Updated fk_inventario', @UserName, @TipoModificacion);
 
+    IF UPDATE(nombre)
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
+        VALUES (@DateTime, @TableName, 'Updated nombre del producto ', @UserName, @TipoModificacion);
+
     IF UPDATE(fk_presentacion)
         INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
         VALUES (@DateTime, @TableName, 'Updated fk_presentacion', @UserName, @TipoModificacion);
