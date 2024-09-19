@@ -1,6 +1,8 @@
 use abarroteria
 go 
 
+
+
 CREATE OR ALTER PROCEDURE sp_insertarInventario
     @codigo_inventario VARCHAR(14),
     @fk_proveedor VARCHAR(14),
