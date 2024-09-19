@@ -1,3 +1,6 @@
+use abarroteria
+go 
+
 CREATE OR ALTER PROCEDURE GenerarBackupAbarroteria
 AS
 BEGIN
