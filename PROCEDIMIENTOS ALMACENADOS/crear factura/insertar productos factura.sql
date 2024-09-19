@@ -34,7 +34,7 @@ BEGIN
 		-- Obtener el precio unitario y el nombre del producto de la tabla 'producto'
 		SELECT 
 			@precio_unitario = precio_unitario, 
-			@nombre_producto = nombre_producto
+			@nombre_producto = nombre
 		FROM producto 
 		WHERE codigo_producto = @codigo_producto;
 
@@ -56,6 +56,7 @@ BEGIN
 		-- Confirmar la transacción
 		COMMIT TRANSACTION 
 	END TRY
+
 	BEGIN CATCH
 		-- Si ocurre un error, revertir la transacción
 		IF @@TRANCOUNT > 0

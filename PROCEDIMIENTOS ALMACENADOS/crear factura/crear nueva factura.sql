@@ -6,8 +6,8 @@ CREATE OR ALTER PROCEDURE crearFacturaVenta
 	@no_factura VARCHAR(50),
 	@no_nit		VARCHAR(14),
 	@nit_empresa VARCHAR(14),
-	@codigo_empleado VARCHAR(14),
-	@fecha DATETIME
+	@codigo_empleado VARCHAR(14)
+
 AS
 BEGIN 
 	-- Iniciamos la transacción
@@ -29,10 +29,12 @@ BEGIN
 
 		-- Insertar datos en la tabla temporal
 		INSERT INTO ##temporal_factura (no_factura, fk_nit_cliente, fk_empresa, fk_empleado, fecha)
-		VALUES (@no_factura, @no_nit, @nit_empresa, @codigo_empleado, @fecha);
-
+		VALUES (@no_factura, @no_nit, @nit_empresa, @codigo_empleado , getdate());
+		PRINT 'FACTURA CREADA , PUEDE PROCEDER A INSERTAR LOS PRODUCTOS '
 		-- Confirmar la transacción
 		COMMIT TRANSACTION
+
+
 	END TRY
 
 	-- Manejo de errores
