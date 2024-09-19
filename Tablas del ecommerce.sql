@@ -1,4 +1,4 @@
-drop database abarroteria
+
 
 CREATE DATABASE abarroteria;
 GO
@@ -175,6 +175,7 @@ CREATE TABLE venta_detalle (
     CONSTRAINT fk_venta_detalle_codigo_producto FOREIGN KEY (fk_codigo_producto) REFERENCES producto(codigo_producto)
 );
 GO
+
 
 -- Crear la tabla de modificacion
 CREATE TABLE modificacion (

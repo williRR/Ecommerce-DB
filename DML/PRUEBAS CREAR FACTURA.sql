@@ -1,3 +1,5 @@
+use abarroteria
+
 -- Insertar datos en la tabla presentacion
 exec crearFacturaVenta '4' ,'CLI002','EMP001','EMP002'
 
@@ -23,8 +25,3 @@ EXEC InsertarProductosFactura
 	exec InsertarDatosFacturaDesdeTemporal
 
 
-	select * from venta
-	select * from venta_detalle
-	WHERE fk_no_factura = 4
-
-	SELECT * FROM inventario

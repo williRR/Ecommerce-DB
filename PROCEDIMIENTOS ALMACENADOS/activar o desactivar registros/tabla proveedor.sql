@@ -12,7 +12,7 @@ BEGIN
         -- Declaración de variables para manejo de mensajes y código
         DECLARE @codigo NVARCHAR(5) = '30001';
         DECLARE @mensaje NVARCHAR(250) = 'Error desconocido';
-        DECLARE @estado CHAR(1);  -- Variable para el estado
+        DECLARE @estado CHAR(1);  -- Variable para el estado 'a'
 
         -- Iniciar transacción
         BEGIN TRANSACTION;
@@ -77,4 +77,7 @@ BEGIN
     END CATCH;
 END;
 GO
+
+
+
 

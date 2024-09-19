@@ -28,6 +28,7 @@ BEGIN
             GROUP BY fk_no_factura
         ) t ON v.no_factura = t.fk_no_factura;
 
+
         -- Actualizar la cantidad disponible en inventario
         UPDATE i
         SET cantidad_disponible = i.cantidad_disponible - t.cantidad

@@ -12,6 +12,7 @@ BEGIN
     SET NOCOUNT ON
 
     BEGIN TRY
+
         DECLARE @codigo NVARCHAR(5) = '30001'; -- Valor predeterminado en caso de error no controlado
         DECLARE @mensaje NVARCHAR(250) = 'Error desconocido';
 
