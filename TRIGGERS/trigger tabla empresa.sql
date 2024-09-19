@@ -1,6 +1,5 @@
 USE abarroteria;
 GO
-
 -- Creación del trigger para controlar los datos cambiados en la tabla empresa
 CREATE OR ALTER TRIGGER TR_UpdateEmpresa
 ON empresa
@@ -18,43 +17,69 @@ BEGIN
     SET @TableName = 'empresa';
 
     -- Insertar cambios en la tabla de auditoría para cada columna actualizada
+
+    -- Cambios en nombre_comercial
     IF UPDATE(nombre_comercial)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated nombre_comercial', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'nombre_comercial', @UserName, @TipoModificacion, i.nit, i.nombre_comercial, d.nombre_comercial
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en departamento
     IF UPDATE(departamento)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated departamento', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'departamento', @UserName, @TipoModificacion, i.nit, i.departamento, d.departamento
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en municipio
     IF UPDATE(municipio)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated municipio', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'municipio', @UserName, @TipoModificacion, i.nit, i.municipio, d.municipio
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en zona
     IF UPDATE(zona)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated zona', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'zona', @UserName, @TipoModificacion, i.nit, i.zona, d.zona
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en calle
     IF UPDATE(calle)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated calle', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'calle', @UserName, @TipoModificacion, i.nit, i.calle, d.calle
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en avenida
     IF UPDATE(avenida)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated avenida', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'avenida', @UserName, @TipoModificacion, i.nit, i.avenida, d.avenida
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en telefono
     IF UPDATE(telefono)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated telefono', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'telefono', @UserName, @TipoModificacion, i.nit, i.telefono, d.telefono
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
+    -- Cambios en correo_electronico
     IF UPDATE(correo_electronico)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated correo_electronico', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'correo_electronico', @UserName, @TipoModificacion, i.nit, i.correo_electronico, d.correo_electronico
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     -- Actualizar la información de fecha y usuario de modificación en la tabla empresa
     UPDATE empresa
     SET fecha_modificacion = @DateTime
     FROM inserted
     WHERE empresa.nit = inserted.nit; -- Reemplaza "nit" con la clave primaria de tu tabla
+
 END;
 GO
 

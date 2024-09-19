@@ -1,6 +1,7 @@
 USE abarroteria;
 GO
 
+
 -- Creación del trigger para controlar los datos cambiados en la tabla cliente
 CREATE OR ALTER TRIGGER TR_UpdateCliente
 ON cliente
@@ -19,43 +20,48 @@ BEGIN
 
     -- Insertar cambios en la tabla de auditoría para cada columna actualizada
     IF UPDATE(nombre)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated nombre', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'nombre', @UserName, @TipoModificacion, i.nit, i.nombre, d.nombre
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(apellido)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated apellido', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'apellido', @UserName, @TipoModificacion, i.nit, i.apellido, d.apellido
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(correo_electronico)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated correo_electronico', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'correo_electronico', @UserName, @TipoModificacion, i.nit, i.correo_electronico, d.correo_electronico
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(telefono)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated telefono', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'telefono', @UserName, @TipoModificacion, i.nit, i.telefono, d.telefono
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(nacimiento)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated nacimiento', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'nacimiento', @UserName, @TipoModificacion, i.nit, i.nacimiento, d.nacimiento
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(genero)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated genero', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'genero', @UserName, @TipoModificacion, i.nit, i.genero, d.genero
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 
     IF UPDATE(direccion)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated direccion', @UserName, @TipoModificacion);
-
-    -- Actualizar la información de fecha y usuario de modificación en la tabla cliente
-    UPDATE cliente
-    SET fecha_modificacion = @DateTime
-    FROM inserted
-    WHERE cliente.nit = inserted.nit; -- Reemplaza "nit" con la clave primaria de tu tabla
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'direccion', @UserName, @TipoModificacion, i.nit, i.direccion, d.direccion
+        FROM inserted i
+        JOIN deleted d ON i.nit = d.nit;
 END;
 GO
-
-
-
 
 
 -- Creación del trigger para prevenir la eliminación de registros en la tabla cliente
@@ -69,3 +75,5 @@ BEGIN
 
 END;
 GO
+
+

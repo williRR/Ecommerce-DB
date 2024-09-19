@@ -1,7 +1,7 @@
 USE abarroteria;
 GO 
 
--- Creación del trigger para controlar los datos cambiados
+-- Creación del trigger para controlar los datos cambiados en la tabla proveedor
 CREATE OR ALTER TRIGGER TR_UpdateProveedor
 ON proveedor
 FOR UPDATE
@@ -19,67 +19,89 @@ BEGIN
 
     -- Insertar cambios en la tabla de auditoría para cada columna actualizada
 
-
     IF UPDATE(nombre_empresa)
-
-	/* se puede notar que hay muchos querys que insertan datos , esto se hace con el fin en que si se actualiza varios 
-		datos , se tenga reguistro todos los datos actualizados 
-	*/
-	
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated nombre_empresa', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'nombre_empresa', @UserName, @TipoModificacion, i.codigo_proveedor, i.nombre_empresa, d.nombre_empresa
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(primer_nombre)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated primer_nombre', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'primer_nombre', @UserName, @TipoModificacion, i.codigo_proveedor, i.primer_nombre, d.primer_nombre
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(segundo_nombre)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated segundo_nombre', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'segundo_nombre', @UserName, @TipoModificacion, i.codigo_proveedor, i.segundo_nombre, d.segundo_nombre
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(primer_apellido)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated primer_apellido', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'primer_apellido', @UserName, @TipoModificacion, i.codigo_proveedor, i.primer_apellido, d.primer_apellido
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(segundo_apellido)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated segundo_apellido', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'segundo_apellido', @UserName, @TipoModificacion, i.codigo_proveedor, i.segundo_apellido, d.segundo_apellido
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(fecha_comienzo_relacion)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated fecha_comienzo_relacion', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'fecha_comienzo_relacion', @UserName, @TipoModificacion, i.codigo_proveedor, i.fecha_comienzo_relacion, d.fecha_comienzo_relacion
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(correo_electronico)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated correo_electronico', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'correo_electronico', @UserName, @TipoModificacion, i.codigo_proveedor, i.correo_electronico, d.correo_electronico
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(telefono)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated telefono', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'telefono', @UserName, @TipoModificacion, i.codigo_proveedor, i.telefono, d.telefono
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(telefono_fijo)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated telefono_fijo', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'telefono_fijo', @UserName, @TipoModificacion, i.codigo_proveedor, i.telefono_fijo, d.telefono_fijo
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(departamento)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated departamento', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'departamento', @UserName, @TipoModificacion, i.codigo_proveedor, i.departamento, d.departamento
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(municipio)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated municipio', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'municipio', @UserName, @TipoModificacion, i.codigo_proveedor, i.municipio, d.municipio
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(zona)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated zona', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'zona', @UserName, @TipoModificacion, i.codigo_proveedor, i.zona, d.zona
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(calle)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated calle', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'calle', @UserName, @TipoModificacion, i.codigo_proveedor, i.calle, d.calle
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     IF UPDATE(avenida)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated avenida', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'avenida', @UserName, @TipoModificacion, i.codigo_proveedor, i.avenida, d.avenida
+        FROM inserted i
+        JOIN deleted d ON i.codigo_proveedor = d.codigo_proveedor;
 
     -- Actualizar la información de fecha y usuario de modificación en la tabla proveedor
     UPDATE proveedor
@@ -89,8 +111,6 @@ BEGIN
 
 END;
 GO
-
-
 
 
 

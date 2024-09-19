@@ -1,7 +1,7 @@
 USE abarroteria;
 GO
 
--- Creación del trigger para controlar los datos cambiados en la tabla inventario
+-- Creación del para trigger controlar los datos cambiados en la tabla inventario
 CREATE OR ALTER TRIGGER TR_UpdateInventario
 ON inventario
 FOR UPDATE

@@ -18,39 +18,62 @@ BEGIN
     SET @TableName = 'producto';
 
     -- Insertar cambios en la tabla de auditoría para cada columna actualizada
+
+    -- Cambios en fk_inventario
     IF UPDATE(fk_inventario)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated fk_inventario', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'fk_inventario', @UserName, @TipoModificacion, i.codigo_producto, i.fk_inventario, d.fk_inventario
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en nombre
     IF UPDATE(nombre)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated nombre del producto ', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'nombre', @UserName, @TipoModificacion, i.codigo_producto, i.nombre, d.nombre
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en fk_presentacion
     IF UPDATE(fk_presentacion)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated fk_presentacion', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'fk_presentacion', @UserName, @TipoModificacion, i.codigo_producto, i.fk_presentacion, d.fk_presentacion
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en precio_unitario
     IF UPDATE(precio_unitario)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated precio_unitario', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'precio_unitario', @UserName, @TipoModificacion, i.codigo_producto, i.precio_unitario, d.precio_unitario
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en fecha_entrada
     IF UPDATE(fecha_entrada)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated fecha_entrada', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'fecha_entrada', @UserName, @TipoModificacion, i.codigo_producto, i.fecha_entrada, d.fecha_entrada
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en fecha_vencimiento
     IF UPDATE(fecha_vencimiento)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated fecha_vencimiento', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'fecha_vencimiento', @UserName, @TipoModificacion, i.codigo_producto, i.fecha_vencimiento, d.fecha_vencimiento
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
+    -- Cambios en marca
     IF UPDATE(marca)
-        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion)
-        VALUES (@DateTime, @TableName, 'Updated marca', @UserName, @TipoModificacion);
+        INSERT INTO modificacion (fecha, tabla_afectada, columna_afectada, usuario, tipo_modificacion, id, valor_nuevo, valor_antiguo)
+        SELECT @DateTime, @TableName, 'marca', @UserName, @TipoModificacion, i.codigo_producto, i.marca, d.marca
+        FROM inserted i
+        JOIN deleted d ON i.codigo_producto = d.codigo_producto;
 
     -- Actualizar la información de fecha y usuario de modificación en la tabla producto
     UPDATE producto
     SET fecha_modificacion = @DateTime
     FROM inserted
     WHERE producto.codigo_producto = inserted.codigo_producto; -- Reemplaza "codigo_producto" con la clave primaria de tu tabla
+
 END;
 GO
 

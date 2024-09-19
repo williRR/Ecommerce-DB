@@ -184,6 +184,9 @@ CREATE TABLE modificacion (
     tabla_afectada VARCHAR(20) NOT NULL,
     columna_afectada VARCHAR(50) NOT NULL,
     usuario VARCHAR(20) NOT NULL DEFAULT(CURRENT_USER),
-    tipo_modificacion VARCHAR(15) NOT NULL
+    tipo_modificacion VARCHAR(15) NOT NULL,
+	id VARCHAR(20),
+    valor_nuevo VARCHAR(50),
+    valor_antiguo VARCHAR(50)
 );
 GO
