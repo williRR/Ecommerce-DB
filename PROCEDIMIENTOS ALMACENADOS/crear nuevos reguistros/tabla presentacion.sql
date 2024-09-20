@@ -1,6 +1,10 @@
 USE abarroteria
 GO
 
+
+
+
+
 CREATE OR ALTER PROCEDURE sp_insertarPresentacion
     @capacidad VARCHAR(10),
     @unidad_envase VARCHAR(10),
@@ -17,7 +21,7 @@ BEGIN
         DECLARE @mensaje NVARCHAR(250) = 'Error desconocido';
 
         -- Verificar que los datos sean los correctos
-        IF ISNUMERIC(@capacidad) = 0
+        IF ISNUMERIC(@capacidad) = 0 
         BEGIN
             SET @codigo = '10002'; -- Código para tipo de dato no aceptado
             SET @mensaje = 'Error: La capacidad debe ser un valor numérico.';

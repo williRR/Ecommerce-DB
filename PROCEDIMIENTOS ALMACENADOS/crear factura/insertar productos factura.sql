@@ -1,6 +1,7 @@
 USE abarroteria
 GO 
 
+
 CREATE OR ALTER PROCEDURE InsertarProductosFactura 
 	@no_factura  VARCHAR(50),
 	@codigo_producto VARCHAR(14),
@@ -42,6 +43,7 @@ BEGIN
 		IF @precio_unitario IS NULL OR @nombre_producto IS NULL
 		BEGIN
 			THROW 50000, 'Producto no encontrado.', 1;
+		
 		END
 
 		-- Calcular el subtotal

@@ -92,3 +92,13 @@ BEGIN
 
 END;
 GO
+
+
+select * from producto
+
+update producto
+set nombre = 'martillo',
+marca = 'philips'
+where codigo_producto = 'PROD001'
+
+select * from modificacion

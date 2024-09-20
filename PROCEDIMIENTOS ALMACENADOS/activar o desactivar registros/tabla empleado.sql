@@ -28,6 +28,7 @@ BEGIN
         COMMIT TRANSACTION;
         PRINT 'Estado del empleado actualizado correctamente.';
     END TRY
+
     BEGIN CATCH
         IF @@TRANCOUNT > 0
             ROLLBACK TRANSACTION;
@@ -37,3 +38,9 @@ BEGIN
     END CATCH;
 END;
 GO
+
+
+exec spEstadoEmpleado 'EMP001'
+
+
+select* from empleado
