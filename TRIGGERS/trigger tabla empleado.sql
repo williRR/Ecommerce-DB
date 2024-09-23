@@ -142,3 +142,13 @@ END;
 GO
 
 
+
+
+update empleado
+set correo_electronico= 'willi@gmail.com',
+segundo_apellido = 'roquel'
+where codigo_empleado = 'EMP001'
+
+select * from empleado
+
+

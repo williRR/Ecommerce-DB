@@ -1,6 +1,7 @@
 USE abarroteria;
 GO
 
+
 CREATE OR ALTER PROCEDURE sp_insertarEmpleado
     @codigo_empleado VARCHAR(14),
     @dni VARCHAR(16),

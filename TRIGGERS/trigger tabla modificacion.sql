@@ -12,6 +12,7 @@ BEGIN
 
 END;
 go
+
 -- Creación del trigger para prevenir la eliminación de registros en la tabla cliente
 CREATE OR ALTER TRIGGER TR_updateModificacion
 ON modificacion
